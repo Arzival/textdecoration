@@ -6,21 +6,21 @@ import { useDebounce } from '../../hooks/useDebounce'
 import { PreviewFrame } from './PreviewFrame'
 
 export function PreviewPanel() {
-  const { format, phrases, activePhraseId } = useProjectStore()
+  const { format, bgTheme, phrases, activePhraseId } = useProjectStore()
   const [showFull, setShowFull] = useState(false)
 
   // HTML de la frase activa (preview en tiempo real)
   const activeHtml = useMemo(() => {
     const active = phrases.find((p) => p.id === activePhraseId)
     if (!active) return ''
-    return buildHtml({ format, phrases: [active] })
-  }, [format, phrases, activePhraseId])
+    return buildHtml({ format, bgTheme, phrases: [active] })
+  }, [format, bgTheme, phrases, activePhraseId])
 
   // HTML de la animación completa
   const fullHtml = useMemo(() => {
     if (phrases.length === 0) return ''
-    return buildHtml({ format, phrases })
-  }, [format, phrases])
+    return buildHtml({ format, bgTheme, phrases })
+  }, [format, bgTheme, phrases])
 
   const debouncedActive = useDebounce(activeHtml, 400)
   const previewHtml     = showFull ? fullHtml : debouncedActive

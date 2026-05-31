@@ -1,3 +1,4 @@
+import { BgPicker } from './components/editor/BgPicker'
 import { FormatPicker } from './components/editor/FormatPicker'
 import { PhraseList } from './components/editor/PhraseList'
 import { PreviewPanel } from './components/preview/PreviewPanel'
@@ -13,7 +14,10 @@ export default function App() {
             Generador de animaciones
           </span>
         </div>
-        <FormatPicker />
+        <div className="flex items-center gap-3">
+          <BgPicker />
+          <FormatPicker />
+        </div>
       </header>
 
       {/* Split layout */}

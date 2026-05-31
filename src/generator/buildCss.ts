@@ -1,19 +1,63 @@
-import type { Format } from '../types'
+import type { BgTheme, Format } from '../types'
 
-export function buildCss(format: Format): string {
+const BG_THEMES: Record<BgTheme, { base: string; bg: string; grid: string }> = {
+  nebula: {
+    base: '#050508',
+    bg: `radial-gradient(ellipse 920px 620px at 15% 45%,rgba(109,40,217,.56) 0%,transparent 70%),
+  radial-gradient(ellipse 700px 520px at 86% 68%,rgba(6,182,212,.33) 0%,transparent 65%),
+  radial-gradient(ellipse 500px 380px at 58% 8%,rgba(139,92,246,.26) 0%,transparent 60%),
+  radial-gradient(ellipse 400px 300px at 75% 88%,rgba(16,185,129,.13) 0%,transparent 55%)`,
+    grid: 'rgba(139,92,246,.05)',
+  },
+  midnight: {
+    base: '#020510',
+    bg: `radial-gradient(ellipse 900px 600px at 12% 50%,rgba(49,46,129,.65) 0%,transparent 70%),
+  radial-gradient(ellipse 720px 500px at 88% 60%,rgba(29,78,216,.4) 0%,transparent 65%),
+  radial-gradient(ellipse 520px 380px at 55% 10%,rgba(6,182,212,.22) 0%,transparent 60%),
+  radial-gradient(ellipse 380px 280px at 70% 90%,rgba(109,40,217,.18) 0%,transparent 55%)`,
+    grid: 'rgba(99,102,241,.05)',
+  },
+  ember: {
+    base: '#080205',
+    bg: `radial-gradient(ellipse 900px 600px at 18% 48%,rgba(159,18,57,.55) 0%,transparent 70%),
+  radial-gradient(ellipse 700px 500px at 84% 65%,rgba(194,65,12,.38) 0%,transparent 65%),
+  radial-gradient(ellipse 500px 360px at 60% 10%,rgba(120,53,15,.28) 0%,transparent 60%),
+  radial-gradient(ellipse 380px 280px at 78% 85%,rgba(127,29,29,.18) 0%,transparent 55%)`,
+    grid: 'rgba(239,68,68,.04)',
+  },
+  forest: {
+    base: '#020a05',
+    bg: `radial-gradient(ellipse 920px 620px at 14% 46%,rgba(6,78,59,.6) 0%,transparent 70%),
+  radial-gradient(ellipse 700px 520px at 85% 65%,rgba(19,78,74,.38) 0%,transparent 65%),
+  radial-gradient(ellipse 500px 360px at 56% 8%,rgba(20,83,45,.28) 0%,transparent 60%),
+  radial-gradient(ellipse 380px 280px at 74% 88%,rgba(6,182,212,.12) 0%,transparent 55%)`,
+    grid: 'rgba(52,211,153,.04)',
+  },
+  ice: {
+    base: '#030609',
+    bg: `radial-gradient(ellipse 900px 600px at 16% 48%,rgba(7,89,133,.55) 0%,transparent 70%),
+  radial-gradient(ellipse 720px 500px at 86% 62%,rgba(30,58,138,.35) 0%,transparent 65%),
+  radial-gradient(ellipse 500px 360px at 57% 9%,rgba(8,145,178,.22) 0%,transparent 60%),
+  radial-gradient(ellipse 380px 280px at 72% 88%,rgba(37,99,235,.14) 0%,transparent 55%)`,
+    grid: 'rgba(186,230,253,.04)',
+  },
+}
+
+export function buildCss(format: Format, bgTheme: BgTheme = 'nebula'): string {
   const isYT   = format === 'youtube'
   const stageW = isYT ? '1280px' : '390px'
   const stageH = isYT ? '720px'  : '844px'
   const mediaW = isYT ? '1280px' : '390px'
   const ratio  = isYT ? '720 / 1280' : '844 / 390'
   const minH   = isYT ? '' : 'min-height: 100svh;'
+  const { base, bg, grid } = BG_THEMES[bgTheme]
 
   return `
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-body{background:#050508;min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:${base};min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
 
-.stage{width:${stageW};height:${stageH};flex-shrink:0;overflow:hidden;position:relative;background:#050508}
+.stage{width:${stageW};height:${stageH};flex-shrink:0;overflow:hidden;position:relative;background:${base}}
 
 @media(max-width:${mediaW}){
   body{align-items:flex-start}
@@ -28,11 +72,8 @@ body{background:#050508;min-height:100vh;display:flex;justify-content:center;ali
 .progress-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:shimmer 1.5s infinite}
 
 .bg{position:absolute;inset:0;background:
-  radial-gradient(ellipse 920px 620px at 15% 45%,rgba(109,40,217,.56) 0%,transparent 70%),
-  radial-gradient(ellipse 700px 520px at 86% 68%,rgba(6,182,212,.33) 0%,transparent 65%),
-  radial-gradient(ellipse 500px 380px at 58% 8%,rgba(139,92,246,.26) 0%,transparent 60%),
-  radial-gradient(ellipse 400px 300px at 75% 88%,rgba(16,185,129,.13) 0%,transparent 55%)}
-.grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.05) 1px,transparent 1px);background-size:80px 80px}
+  ${bg}}
+.grid-overlay{position:absolute;inset:0;background-image:linear-gradient(${grid} 1px,transparent 1px),linear-gradient(90deg,${grid} 1px,transparent 1px);background-size:80px 80px}
 
 @keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(220%)}}
 @keyframes phraseIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}

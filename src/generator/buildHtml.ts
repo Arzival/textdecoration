@@ -4,8 +4,8 @@ import { buildPhraseHtml } from './buildPhraseHtml'
 import { buildJs } from './buildJs'
 
 export function buildHtml(project: Project): string {
-  const { format, phrases } = project
-  const css         = buildCss(format)
+  const { format, bgTheme = 'nebula', phrases } = project
+  const css         = buildCss(format, bgTheme)
   const phrasesHtml = phrases.map((p, i) => buildPhraseHtml(p, i)).join('\n')
   const js          = buildJs(phrases)
 

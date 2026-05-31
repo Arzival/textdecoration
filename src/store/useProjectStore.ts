@@ -1,14 +1,16 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { Format, Phrase, StyleType } from '../types'
+import type { BgTheme, Format, Phrase, StyleType } from '../types'
 import { defaultPhrase } from '../data/defaultPhrase'
 
 interface ProjectStore {
   format: Format
+  bgTheme: BgTheme
   phrases: Phrase[]
   activePhraseId: string | null
 
   setFormat: (f: Format) => void
+  setBgTheme: (t: BgTheme) => void
   setActivePhrase: (id: string | null) => void
   addPhrase: (styleType: StyleType) => void
   updatePhrase: (id: string, patch: Partial<Phrase>) => void
@@ -20,10 +22,12 @@ export const useProjectStore = create<ProjectStore>()(
   persist(
     (set) => ({
       format: 'youtube',
+      bgTheme: 'nebula',
       phrases: [],
       activePhraseId: null,
 
       setFormat: (format) => set({ format }),
+      setBgTheme: (bgTheme) => set({ bgTheme }),
 
       setActivePhrase: (activePhraseId) => set({ activePhraseId }),
 

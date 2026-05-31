@@ -1,5 +1,7 @@
 export type Format = 'youtube' | 'tiktok'
 
+export type BgTheme = 'nebula' | 'midnight' | 'ember' | 'forest' | 'ice'
+
 export type StyleType =
   | 'statement'
   | 'quote'
@@ -20,5 +22,6 @@ export interface Phrase {
 
 export interface Project {
   format: Format
+  bgTheme: BgTheme
   phrases: Phrase[]
 }
