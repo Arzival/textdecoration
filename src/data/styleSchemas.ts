@@ -3,7 +3,7 @@ import type { StyleType } from '../types'
 export interface FieldDef {
   key: string
   label: string
-  type: 'text' | 'textarea' | 'checkbox' | 'list-items' | 'list-chain' | 'list-check'
+  type: 'text' | 'textarea' | 'checkbox' | 'list-items' | 'list-chain' | 'list-check' | 'list-steps' | 'list-stats' | 'list-pills' | 'list-timeline'
   placeholder?: string
 }
 
@@ -65,6 +65,58 @@ export const STYLE_SCHEMAS: Record<StyleType, FieldDef[]> = {
     { key: 'no.desc',  label: 'Descripción (no)',    type: 'textarea', placeholder: '...' },
     { key: 'verdict',  label: 'Veredicto final',     type: 'text',     placeholder: 'El resultado habla solo.' },
   ],
+  'title-card': [
+    { key: 'eyebrow', label: 'Supratítulo',   type: 'text',     placeholder: 'Capítulo 1' },
+    { key: 'title',   label: 'Título',        type: 'textarea', placeholder: 'El gran título aquí...' },
+    { key: 'tagline', label: 'Tagline',       type: 'text',     placeholder: 'La idea en una línea' },
+  ],
+  steps: [
+    { key: 'intro', label: 'Título intro',   type: 'text',       placeholder: 'Cómo funciona' },
+    { key: 'items', label: 'Pasos (máx 4)', type: 'list-steps' },
+  ],
+  'stat-row': [
+    { key: 'label', label: 'Título',          type: 'text',      placeholder: 'Los números hablan' },
+    { key: 'items', label: 'Stats (máx 3)',  type: 'list-stats' },
+  ],
+  question: [
+    { key: 'question', label: 'Pregunta',          type: 'textarea', placeholder: '¿Por qué...?' },
+    { key: 'answer',   label: 'Respuesta',         type: 'textarea', placeholder: 'Porque...' },
+    { key: 'note',     label: 'Nota extra (abajo)',type: 'text',     placeholder: 'Contexto adicional' },
+  ],
+  'myth-fact': [
+    { key: 'label',       label: 'Label superior',      type: 'text',     placeholder: 'La verdad es otra' },
+    { key: 'myth.icon',   label: 'Ícono (mito)',        type: 'text',     placeholder: '❌' },
+    { key: 'myth.title',  label: 'Título del mito',     type: 'text',     placeholder: 'Ej: Es muy complicado' },
+    { key: 'myth.desc',   label: 'Descripción (mito)',  type: 'textarea', placeholder: 'El malentendido...' },
+    { key: 'fact.icon',   label: 'Ícono (realidad)',    type: 'text',     placeholder: '✅' },
+    { key: 'fact.title',  label: 'Título real',         type: 'text',     placeholder: 'Ej: Es más simple de lo que piensas' },
+    { key: 'fact.desc',   label: 'Descripción (real)',  type: 'textarea', placeholder: 'La realidad...' },
+  ],
+  'pill-tags': [
+    { key: 'title',    label: 'Título',        type: 'text',      placeholder: 'Tech Stack' },
+    { key: 'subtitle', label: 'Subtítulo',     type: 'text',      placeholder: 'Lo que usamos' },
+    { key: 'items',    label: 'Tags (máx 8)', type: 'list-pills' },
+  ],
+  timeline: [
+    { key: 'intro', label: 'Intro',              type: 'text',          placeholder: 'Así fue el camino' },
+    { key: 'items', label: 'Eventos (máx 4)', type: 'list-timeline' },
+  ],
+  callout: [
+    { key: 'icon',    label: 'Ícono',             type: 'text',     placeholder: '💡' },
+    { key: 'label',   label: 'Label (CLAVE etc)', type: 'text',     placeholder: 'Clave' },
+    { key: 'text',    label: 'Texto principal',   type: 'textarea', placeholder: 'Tu insight aquí...' },
+    { key: 'keyword', label: 'Palabra gradiente', type: 'text',     placeholder: 'Palabra a resaltar' },
+    { key: 'note',    label: 'Nota inferior',     type: 'text',     placeholder: 'Texto de apoyo' },
+  ],
+  versus: [
+    { key: 'label',        label: 'Label',              type: 'text',     placeholder: 'La diferencia real' },
+    { key: 'left.name',    label: 'Nombre izquierda',   type: 'text',     placeholder: 'Con esto' },
+    { key: 'left.heading', label: 'Título izquierda',   type: 'text',     placeholder: 'Resultado claro' },
+    { key: 'left.desc',    label: 'Puntos izquierda',   type: 'textarea', placeholder: 'Una por línea...' },
+    { key: 'right.name',   label: 'Nombre derecha',     type: 'text',     placeholder: 'Sin esto' },
+    { key: 'right.heading',label: 'Título derecha',     type: 'text',     placeholder: 'Caos total' },
+    { key: 'right.desc',   label: 'Puntos derecha',     type: 'textarea', placeholder: 'Una por línea...' },
+  ],
 }
 
 export const STYLE_LABELS: Record<StyleType, string> = {
@@ -77,6 +129,15 @@ export const STYLE_LABELS: Record<StyleType, string> = {
   chain:        'Cadena',
   checklist:    'Checklist',
   comparison:   'Comparación',
+  'title-card': 'Título',
+  steps:        'Pasos',
+  'stat-row':   'Stats',
+  question:     'Pregunta',
+  'myth-fact':  'Mito / Real',
+  'pill-tags':  'Tags',
+  timeline:     'Timeline',
+  callout:      'Callout',
+  versus:       'Versus',
 }
 
 export const STYLE_ICONS: Record<StyleType, string> = {
@@ -89,4 +150,13 @@ export const STYLE_ICONS: Record<StyleType, string> = {
   chain:        '⛓️',
   checklist:    '✅',
   comparison:   '⚖️',
+  'title-card': '🎬',
+  steps:        '🪜',
+  'stat-row':   '📊',
+  question:     '❓',
+  'myth-fact':  '🔍',
+  'pill-tags':  '🏷️',
+  timeline:     '📅',
+  callout:      '✨',
+  versus:       '⚔️',
 }

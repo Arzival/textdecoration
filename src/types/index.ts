@@ -12,6 +12,15 @@ export type StyleType =
   | 'chain'
   | 'checklist'
   | 'comparison'
+  | 'title-card'
+  | 'steps'
+  | 'stat-row'
+  | 'question'
+  | 'myth-fact'
+  | 'pill-tags'
+  | 'timeline'
+  | 'callout'
+  | 'versus'
 
 export interface Phrase {
   id: string

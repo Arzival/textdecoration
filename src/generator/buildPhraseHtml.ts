@@ -47,6 +47,24 @@ export function buildPhraseHtml(phrase: Phrase, index: number): string {
       return checklist(id, c)
     case 'comparison':
       return comparison(id, c)
+    case 'title-card':
+      return titleCard(id, c)
+    case 'steps':
+      return steps(id, c)
+    case 'stat-row':
+      return statRow(id, c)
+    case 'question':
+      return question(id, c)
+    case 'myth-fact':
+      return mythFact(id, c)
+    case 'pill-tags':
+      return pillTags(id, c)
+    case 'timeline':
+      return timeline(id, c)
+    case 'callout':
+      return callout(id, c)
+    case 'versus':
+      return versus(id, c)
     default:
       return ''
   }
@@ -184,6 +202,162 @@ function comparison(id: string, c: Record<string, unknown>) {
           </div>
         </div>
         <p class="cmp-verdict">${esc(c.verdict)}</p>
+      </div>
+    </div>`
+}
+
+function titleCard(id: string, c: Record<string, unknown>) {
+  return `    <div class="phrase" id="${id}" style="align-items:center;justify-content:center;text-align:center;">
+      <div class="pi" style="max-width:1100px;width:100%;padding:0 80px;">
+        ${c.eyebrow ? `<p class="tc-eyebrow">${esc(c.eyebrow)}</p>` : ''}
+        <h1 class="tc-main">${escBr(c.title ?? '')}</h1>
+        <div class="tc-line"></div>
+        ${c.tagline ? `<p class="tc-tagline">${esc(c.tagline)}</p>` : ''}
+      </div>
+    </div>`
+}
+
+function steps(id: string, c: Record<string, unknown>) {
+  const items = (c.items as Array<{ text: string; detail?: string }>) ?? []
+  const rows  = items.map((it, i) => `
+          <div class="step-item">
+            <div class="sp-num">${i + 1}</div>
+            <div>
+              <p class="sp-text">${esc(it.text)}</p>
+              ${it.detail ? `<p class="sp-detail">${esc(it.detail)}</p>` : ''}
+            </div>
+          </div>`).join('')
+  return `    <div class="phrase" id="${id}" style="align-items:center;justify-content:center;">
+      <div class="pi" style="max-width:800px;width:100%;">
+        <p class="sp-intro">${esc(c.intro)}</p>
+        ${rows}
+      </div>
+    </div>`
+}
+
+function statRow(id: string, c: Record<string, unknown>) {
+  const items = (c.items as Array<{ icon: string; value: string; metric: string; detail?: string }>) ?? []
+  const cards = items.map(it => `
+          <div class="srow-card">
+            <div class="srow-icon">${esc(it.icon)}</div>
+            <div class="srow-value">${esc(it.value)}</div>
+            <p class="srow-metric">${esc(it.metric)}</p>
+            ${it.detail ? `<p class="srow-detail">${esc(it.detail)}</p>` : ''}
+          </div>`).join('')
+  return `    <div class="phrase" id="${id}" style="align-items:center;justify-content:center;">
+      <div class="pi" style="max-width:1050px;width:100%;padding:0 60px;">
+        <p class="srow-label">${esc(c.label)}</p>
+        <div class="srow-grid">${cards}
+        </div>
+      </div>
+    </div>`
+}
+
+function question(id: string, c: Record<string, unknown>) {
+  return `    <div class="phrase" id="${id}" style="align-items:center;justify-content:center;text-align:center;">
+      <div class="pi" style="max-width:950px;width:100%;padding:0 80px;">
+        <span class="qn-mark">?</span>
+        <p class="qn-q">${escBr(c.question ?? '')}</p>
+        <div class="qn-divider"></div>
+        <div class="qn-a">
+          <p>${escBr(c.answer ?? '')}</p>
+          ${c.note ? `<p class="qn-note">${esc(c.note)}</p>` : ''}
+        </div>
+      </div>
+    </div>`
+}
+
+function mythFact(id: string, c: Record<string, unknown>) {
+  const myth = (c.myth as Record<string, string>) ?? {}
+  const fact = (c.fact as Record<string, string>) ?? {}
+  return `    <div class="phrase" id="${id}" style="align-items:center;justify-content:center;">
+      <div class="pi" style="max-width:1100px;width:100%;padding:0 60px;display:flex;flex-direction:column;align-items:center;gap:20px;">
+        ${c.label ? `<p class="mf-label">${esc(c.label)}</p>` : ''}
+        <div class="mf-row">
+          <div class="mf-card myth">
+            <span class="mf-badge">✗ Mito</span>
+            ${myth.icon ? `<div class="mf-icon">${esc(myth.icon)}</div>` : ''}
+            <p class="mf-title">${esc(myth.title)}</p>
+            <p class="mf-desc">${esc(myth.desc)}</p>
+          </div>
+          <div class="mf-card fact">
+            <span class="mf-badge">✓ Realidad</span>
+            ${fact.icon ? `<div class="mf-icon">${esc(fact.icon)}</div>` : ''}
+            <p class="mf-title">${esc(fact.title)}</p>
+            <p class="mf-desc">${esc(fact.desc)}</p>
+          </div>
+        </div>
+      </div>
+    </div>`
+}
+
+function pillTags(id: string, c: Record<string, unknown>) {
+  const items = (c.items as Array<{ text: string; variant: string }>) ?? []
+  const pills = items.map(it => `<span class="pill-tag ${esc(it.variant)}">${esc(it.text)}</span>`).join('\n          ')
+  return `    <div class="phrase" id="${id}" style="align-items:center;justify-content:center;text-align:center;">
+      <div class="pi" style="max-width:1000px;width:100%;padding:0 60px;">
+        <h2 class="pt-title">${esc(c.title)}</h2>
+        ${c.subtitle ? `<p class="pt-sub">${esc(c.subtitle)}</p>` : ''}
+        <div class="pt-grid">
+          ${pills}
+        </div>
+      </div>
+    </div>`
+}
+
+function timeline(id: string, c: Record<string, unknown>) {
+  const items = (c.items as Array<{ date: string; title: string; desc?: string }>) ?? []
+  const events = items.map(it => `
+          <div class="tl-event">
+            <div class="tl-dot"></div>
+            <div>
+              ${it.date ? `<p class="tl-date">${esc(it.date)}</p>` : ''}
+              <p class="tl-etitle">${esc(it.title)}</p>
+              ${it.desc ? `<p class="tl-edesc">${esc(it.desc)}</p>` : ''}
+            </div>
+          </div>`).join('')
+  return `    <div class="phrase" id="${id}" style="align-items:center;justify-content:center;">
+      <div class="pi" style="max-width:820px;width:100%;">
+        <p class="tl-intro">${esc(c.intro)}</p>
+        <div class="tl-list">
+          ${events}
+        </div>
+      </div>
+    </div>`
+}
+
+function callout(id: string, c: Record<string, unknown>) {
+  return `    <div class="phrase" id="${id}" style="align-items:center;justify-content:center;">
+      <div class="pi" style="max-width:960px;width:100%;padding:0 60px;">
+        <div class="co-card">
+          <span class="co-icon">${esc(c.icon)}</span>
+          ${c.label ? `<p class="co-label">${esc(c.label)}</p>` : ''}
+          <p class="co-text">${highlightKw(String(c.text ?? ''), String(c.keyword ?? ''))}</p>
+          ${c.note ? `<p class="co-note">${esc(c.note)}</p>` : ''}
+        </div>
+      </div>
+    </div>`
+}
+
+function versus(id: string, c: Record<string, unknown>) {
+  const left  = (c.left  as Record<string, string>) ?? {}
+  const right = (c.right as Record<string, string>) ?? {}
+  return `    <div class="phrase" id="${id}" style="align-items:center;justify-content:center;">
+      <div class="pi" style="max-width:1100px;width:100%;padding:0 60px;display:flex;flex-direction:column;align-items:center;gap:20px;">
+        ${c.label ? `<p class="vs-label">${esc(c.label)}</p>` : ''}
+        <div class="vs-row">
+          <div class="vs-side left">
+            <p class="vs-name">${esc(left.name)}</p>
+            <p class="vs-heading">${esc(left.heading)}</p>
+            <p class="vs-desc">${escBr(left.desc ?? '')}</p>
+          </div>
+          <div class="vs-badge">VS</div>
+          <div class="vs-side right">
+            <p class="vs-name">${esc(right.name)}</p>
+            <p class="vs-heading">${esc(right.heading)}</p>
+            <p class="vs-desc">${escBr(right.desc ?? '')}</p>
+          </div>
+        </div>
       </div>
     </div>`
 }

@@ -4,6 +4,8 @@ import { STYLE_ICONS, STYLE_LABELS } from '../../data/styleSchemas'
 const ALL_STYLES: StyleType[] = [
   'statement', 'quote', 'alert-red', 'alert-amber',
   'list-items', 'big-number', 'chain', 'checklist', 'comparison',
+  'title-card', 'steps', 'stat-row', 'question', 'myth-fact',
+  'pill-tags', 'timeline', 'callout', 'versus',
 ]
 
 interface Props {
