@@ -37,7 +37,7 @@ export function buildJs(phrases: Phrase[]): string {
     .map((p, i) => (p.styleType === 'versus' ? `p${i + 1}` : null))
     .filter((id): id is string => id !== null)
 
-  const totalMs = 2000 + phrases.reduce((s, p, i) => s + 600 + (durations[`p${i + 1}`] ?? 7500) + 450 + 2000, 0)
+  const totalMs = 2000 + phrases.reduce((s, _p, i) => s + 600 + (durations[`p${i + 1}`] ?? 7500) + 450 + 2000, 0)
 
   return `
 const INIT_WAIT=2000,ANIM_IN=600,ANIM_OUT=450,PAUSE=2000;
