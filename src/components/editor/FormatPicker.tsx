@@ -15,7 +15,8 @@ export function FormatPicker() {
               : 'text-white/50 hover:text-white'
           }`}
         >
-          {f === 'youtube' ? 'YouTube 16:9' : 'TikTok 9:16'}
+          <span className="hidden sm:inline">{f === 'youtube' ? 'YouTube 16:9' : 'TikTok 9:16'}</span>
+          <span className="sm:hidden">{f === 'youtube' ? '16:9' : '9:16'}</span>
         </button>
       ))}
     </div>
