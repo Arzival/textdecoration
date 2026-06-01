@@ -4,6 +4,7 @@ import type { Format } from '../../types'
 interface Props {
   html: string
   format: Format
+  replayKey?: number
 }
 
 const DIMS = {
@@ -11,7 +12,7 @@ const DIMS = {
   tiktok:  { w: 390,  h: 844 },
 }
 
-export function PreviewFrame({ html, format }: Props) {
+export function PreviewFrame({ html, format, replayKey = 0 }: Props) {
   const { w, h } = DIMS[format]
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [availableW, setAvailableW] = useState(560)
@@ -36,7 +37,7 @@ export function PreviewFrame({ html, format }: Props) {
         style={{ width: availableW, height: scaledH, background: '#050508' }}
       >
         <iframe
-          key={html}
+          key={html + replayKey}
           srcDoc={html}
           width={w}
           height={h}

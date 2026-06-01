@@ -8,6 +8,7 @@ import { PreviewFrame } from './PreviewFrame'
 export function PreviewPanel() {
   const { format, bgTheme, phrases, activePhraseId } = useProjectStore()
   const [showFull, setShowFull] = useState(false)
+  const [replayKey, setReplayKey] = useState(0)
 
   // HTML de la frase activa (preview en tiempo real)
   const activeHtml = useMemo(() => {
@@ -38,6 +39,14 @@ export function PreviewPanel() {
           </p>
         </div>
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => setReplayKey((k) => k + 1)}
+            disabled={phrases.length === 0}
+            title="Reiniciar preview"
+            className="px-2.5 py-1.5 rounded-lg text-sm font-medium text-white/50 hover:text-white hover:bg-white/5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            ↺
+          </button>
           <button
             onClick={() => setShowFull((v) => !v)}
             disabled={phrases.length === 0}
@@ -74,7 +83,7 @@ export function PreviewPanel() {
             <p className="text-white/20 text-xs mt-1">O pulsa "Ver todo" para la animación completa.</p>
           </div>
         ) : (
-          <PreviewFrame html={previewHtml} format={format} />
+          <PreviewFrame html={previewHtml} format={format} replayKey={replayKey} />
         )}
       </div>
     </div>
