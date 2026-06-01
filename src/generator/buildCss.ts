@@ -71,9 +71,9 @@ body{background:${base};min-height:100vh;display:flex;justify-content:center;ali
 .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#06b6d4);position:relative;overflow:hidden}
 .progress-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:shimmer 1.5s infinite}
 
-.bg{position:absolute;inset:0;background:
+.bg{position:absolute;inset:0;pointer-events:none;background:
   ${bg}}
-.grid-overlay{position:absolute;inset:0;background-image:linear-gradient(${grid} 1px,transparent 1px),linear-gradient(90deg,${grid} 1px,transparent 1px);background-size:80px 80px}
+.grid-overlay{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(${grid} 1px,transparent 1px),linear-gradient(90deg,${grid} 1px,transparent 1px);background-size:80px 80px}
 
 @keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(220%)}}
 @keyframes phraseIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
